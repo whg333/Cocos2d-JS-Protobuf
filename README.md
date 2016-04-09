@@ -1,5 +1,5 @@
 # Cocos2d-JS-Protobuf
-This example shows how to use cocos2d-js(actually it works on any XMLHttpRequest) to transfer protocol buffers
+This example shows how to use cocos2d-js to transfer protocol buffers in HTTP(actually it works on any XMLHttpRequest)
 
 ## Instructions
 1. Set up dependencies: `npm install`
