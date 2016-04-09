@@ -1,0 +1,17 @@
+{
+  "name" : "cocos2d-js-protobuf",
+  "version" : "0.0.1",
+  "description" : "cocos2d-js-protobuf",
+  "dependencies" : {
+    "mime" : "~1.2.7",
+    "protobufjs": "~3",
+    "bufferhelper": "0.2.1",
+    "open": "0.0.3"
+  },
+  "engines": {
+    "node": ">= 0.8.0"
+  },
+  "scripts": {
+    "run": "node server.js"
+  }
+}
