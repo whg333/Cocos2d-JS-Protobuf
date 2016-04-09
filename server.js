@@ -1,6 +1,5 @@
 var cache = {};
 var port = 3000;
-var frontendPath = './cocos2d-js/';
 
 var http = require('http');
 var fs = require('fs');
@@ -11,7 +10,7 @@ var open = require("open");
 var ProtoBuf = require('protobufjs');
 //console.log(ProtoBuf);
 //console.log(__dirname);
-var TestProtobuf = ProtoBuf.loadProtoFile(path.join(__dirname, frontendPath+'protobuf/TestProtobuf.proto')).build('TestProtobuf'),
+var TestProtobuf = ProtoBuf.loadProtoFile(path.join(__dirname, './protobuf/TestProtobuf.proto')).build('TestProtobuf'),
     TestProto = TestProtobuf.TestProto;
 //console.log(TestProto);
 
@@ -22,37 +21,7 @@ var server = http.createServer(function(request, response){
     if(request.url == '/'){
         filePath = 'index.html';
     }else if(request.method === 'POST' && request.url.lastIndexOf('proto') != -1){
-        /*var buffers = [];
-        var nread = 0;
-        request.on('data', function (chunk) {
-            buffers.push(chunk);
-            nread += chunk.length;
-        });
-        request.on('end', function () {
-            var buffer = null;
-            switch(buffers.length) {
-                case 0: buffer = new Buffer(0);
-                    break;
-                case 1: buffer = buffers[0];
-                    break;
-                default:
-                    buffer = new Buffer(nread);
-                    for (var i = 0, pos = 0, l = buffers.length; i < l; i++) {
-                        var chunk = buffers[i];
-                        chunk.copy(buffer, pos);
-                        pos += chunk.length;
-                    }
-                    break;
-            }
-
-            var testProtoData = TestProto.decode(buffer);
-            //console.log(testProtoData);
-            response.writeHead(200, {'Content-Type': 'application/x-protobuf'});
-            response.end(testProtoData.toBuffer());
-        });*/
-
-        //参考如下链接地址，注释掉如上繁琐的拼接buffer过程
-        //http://www.infoq.com/cn/articles/nodejs-about-buffer/
+        //BufferHelper参考链接 http://www.infoq.com/cn/articles/nodejs-about-buffer/
         var bufferHelper = new BufferHelper();
         request.on("data", function (chunk) {
             bufferHelper.concat(chunk);
@@ -70,7 +39,7 @@ var server = http.createServer(function(request, response){
         filePath = request.url;
     }
 
-    var absPath = frontendPath+filePath;
+    var absPath = './'+filePath;
     serveStatic(response, cache, absPath);
 });
 

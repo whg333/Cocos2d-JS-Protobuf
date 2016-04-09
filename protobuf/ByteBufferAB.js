@@ -355,7 +355,7 @@
             } else if (Object.prototype.toString.call(buffer) === "[object Array]") { // Create from octets
                 bb = new ByteBuffer(buffer.length, littleEndian, noAssert);
                 bb.limit = buffer.length;
-                for (i=0; i<buffer.length; ++i)
+                for (var i=0; i<buffer.length; ++i)
                     bb.view.setUint8(i, buffer[i]);
             } else
                 throw TypeError("Illegal buffer"); // Otherwise fail

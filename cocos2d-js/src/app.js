@@ -54,16 +54,16 @@ var HttpProtobufLayer = cc.Layer.extend({
         }
 
         var ProtoBuf = dcodeIO.ProtoBuf,
-            TestProtobuf = ProtoBuf.loadProtoFile('protobuf/TestProtobuf.proto').build('TestProtobuf'),
+            TestProtobuf = ProtoBuf.loadProtoFile('../protobuf/TestProtobuf.proto').build('TestProtobuf'),
             TestProto = TestProtobuf.TestProto;
 
         var self = this;
         xhr.onreadystatechange = function () {
             if (xhr.readyState == 4 && (xhr.status >= 200 && xhr.status <= 207)) {
                 var httpStatus = xhr.statusText;
-                statusGetLabel.setString('Status: Got GET response! ' + httpStatus);
+                statusGetLabel.setString('Status: Got POST response! ' + httpStatus);
 
-                var response = 'GET Response: \n\n';
+                var response = 'POST Response: \n\n';
                 var data = xhr.responseText;
                 //trace(data+' !');
                 //trace(typeof data);
@@ -102,11 +102,7 @@ var HttpProtobufLayer = cc.Layer.extend({
 
         var testProto = new TestProto({
             id:10014,
-            name:'testProtoName测试999',
-            rank:27,
-            gold:666,
-            exp:555,
-            diamond:888
+            name:'testProtoName测试987'
         });
         xhr.send(testProto.toBuffer());
     }
