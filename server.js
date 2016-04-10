@@ -28,7 +28,7 @@ for (var i=0, dep; i<deps.length; i++) {
 var ProtoBuf = require('protobufjs');
 //console.log(ProtoBuf);
 //console.log(__dirname);
-var TestProtobuf = ProtoBuf.loadProtoFile(path.join(__dirname, './protobuf/TestProtobuf.proto')).build('TestProtobuf'),
+var TestProtobuf = ProtoBuf.loadProtoFile(path.join(__dirname, copyDirectory, 'TestProtobuf.proto')).build('TestProtobuf'),
     TestProto = TestProtobuf.TestProto;
 //console.log(TestProto);
 
