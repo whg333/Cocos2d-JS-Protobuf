@@ -1,11 +1,29 @@
-var cache = {};
-var port = 3000;
-
 var http = require('http');
 var fs = require('fs');
 var path = require('path');
 var mime = require('mime');
-var open = require("open");
+var open = require('open');
+
+// Copy dependencies to '/protobuf' (example specific, you usually don't have to care
+var deps = [
+    ['long.js', './node_modules/protobufjs/node_modules/bytebuffer/node_modules/long/dist/long.js'],
+    ['bytebuffer.js', './node_modules/protobufjs/node_modules/bytebuffer/dist/bytebuffer.js'],
+    ['protobuf.js', './node_modules/protobufjs/dist/protobuf.js']
+];
+var copyDirectory = 'protobuf';
+for (var i=0, dep; i<deps.length; i++) {
+    dep = deps[i];
+    if (!fs.existsSync(path.join(__dirname, copyDirectory, dep[0]))) {
+        console.log('Copying '+dep[0]+' from '+dep[1]);
+        try {
+            fs.writeFileSync(path.join(__dirname, copyDirectory, dep[0]), fs.readFileSync(path.join(__dirname, dep[1])));
+        } catch (err) {
+            console.log('Copying failed: '+err.message);
+            console.log('\nDid you run `npm install` ?');
+            process.exit(1);
+        }
+    }
+}
 
 var ProtoBuf = require('protobufjs');
 //console.log(ProtoBuf);
@@ -16,6 +34,9 @@ var TestProtobuf = ProtoBuf.loadProtoFile(path.join(__dirname, './protobuf/TestP
 
 var BufferHelper = require('bufferhelper');
 
+var cache = {};
+var port = 3000;
+
 var server = http.createServer(function(request, response){
     var filePath = false;
     if(request.url == '/'){
@@ -23,7 +44,7 @@ var server = http.createServer(function(request, response){
     }else if(request.method === 'POST' && request.url.lastIndexOf('proto') != -1){
         //BufferHelper参考链接 http://www.infoq.com/cn/articles/nodejs-about-buffer/
         var bufferHelper = new BufferHelper();
-        request.on("data", function (chunk) {
+        request.on('data', function (chunk) {
             bufferHelper.concat(chunk);
         });
         request.on('end', function () {
@@ -45,7 +66,11 @@ var server = http.createServer(function(request, response){
 
 server.listen(port, function(){
     console.log('Server listening on porn '+port);
-    open("http://localhost:"+port);
+    open('http://localhost:'+port);
+});
+server.on("error", function(err) {
+    console.log("Failed to start server:", err);
+    process.exit(1);
 });
 
 function serveStatic(response, cache, absPath){

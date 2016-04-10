@@ -2,3 +2,4 @@
 .idea/
 /node_modules/
 /cocos2d-js/frameworks/
+/protobuf/*.js

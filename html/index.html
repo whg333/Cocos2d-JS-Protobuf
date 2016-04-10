@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title></title>
-    <script type="text/javascript" src="../protobuf/Long.js"></script>
-    <script type="text/javascript" src="../protobuf/ByteBufferAB.js"></script>
-    <script type="text/javascript" src="../protobuf/ProtoBuf.js"></script>
+    <script type="text/javascript" src="../protobuf/long.js"></script>
+    <script type="text/javascript" src="../protobuf/bytebuffer.js"></script>
+    <script type="text/javascript" src="../protobuf/protoBuf.js"></script>
     <script type="text/javascript" src="src/jquery-1.8.3.min.js"></script>
     <script type="text/javascript">
         if (typeof dcodeIO === 'undefined' || !dcodeIO.ProtoBuf) {
@@ -21,7 +21,7 @@
                     TestProto = TestProtobuf.TestProto;
 
             $('#sendForm').submit(function () {
-                var xhr = new XMLHttpRequest();
+                var xhr = createXMLHttpRequest();
                 xhr.open('POST', 'http://localhost:3000/proto');
                 xhr.setRequestHeader('Content-Type','application/x-protobuf');
                 xhr.setRequestHeader('Accept','application/x-protobuf');
@@ -67,6 +67,14 @@
             });
 
         });
+
+        function createXMLHttpRequest(){
+            if(window.ActiveXObject){ //IE only
+                return new ActiveXObject("Microsoft.XMLHTTP");
+            }else if(window.XMLHttpRequest){ //others
+                return new XMLHttpRequest();
+            }
+        }
 
         function str2bytes(str){
             var bytes = [];
